@@ -32,8 +32,8 @@ public class Login extends AppCompatActivity {
     }
 
     public void onClickLogin(View v){
-        service = new ServiceBuilder("your_api_key")
-                .apiSecret("your_api_secret")
+        service = new ServiceBuilder("cyFGlnXAnIP5J2fQt9BaX8d4U")
+                .apiSecret("fwsqS43pRiju4OQPM4ewOJf6vZrIdr5MYngerhKxGdICxmFTjX")
                 .callback(CALLBACK_URL)
                 .build(TwitterApi.instance());
 
