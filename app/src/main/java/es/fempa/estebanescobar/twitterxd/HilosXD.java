@@ -2,6 +2,7 @@ package es.fempa.estebanescobar.twitterxd;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 
 import com.github.scribejava.apis.TwitterApi;
 import com.github.scribejava.core.builder.ServiceBuilder;
@@ -19,7 +20,6 @@ public class HilosXD {
     private Login l;
     private OAuth10aService service;
     private OAuth1RequestToken requestToken;
-    private String authUrl;
 
     public HilosXD(Login l){
         this.l = l;
@@ -32,6 +32,7 @@ public class HilosXD {
             public void run() {
                 service = new ServiceBuilder("cyFGlnXAnIP5J2fQt9BaX8d4U")
                         .apiSecret("fwsqS43pRiju4OQPM4ewOJf6vZrIdr5MYngerhKxGdICxmFTjX")
+                        .callback("test://")
                         .build(TwitterApi.instance());
                 try {
                     requestToken = service.getRequestToken();
@@ -69,6 +70,7 @@ public class HilosXD {
                             public void run() {
                                 try {
                                     l.testTV.setText(response.getBody());
+                                    Log.d("prueba", "RESPONSE: "+response);
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
