@@ -2,12 +2,14 @@ package es.fempa.estebanescobar.twitterxd;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,7 +21,9 @@ public class Perfil extends AppCompatActivity {
 
     ImageView profilePic;
     TextView at;
+    EditText tweetET;
     Button btnLogout;
+    Button btnPost;
     HilosXD h;
 
     @Override
@@ -30,6 +34,8 @@ public class Perfil extends AppCompatActivity {
         profilePic = findViewById(R.id.profilePic);
         at = findViewById(R.id.arroba);
         btnLogout = findViewById(R.id.btnLogout);
+        tweetET = findViewById(R.id.tweetET);
+        btnPost = findViewById(R.id.btnPost);
         loadInfo();
     }
 
@@ -46,5 +52,18 @@ public class Perfil extends AppCompatActivity {
 
     public void onClickLogout(View v){
         finish();
+    }
+
+    public void onClickTweets(View v){
+        h.fetchTweets();
+        Intent intent = new Intent(Perfil.this, UltimosTweets.class);
+        startActivity(intent);
+    }
+
+    public void onClickPost(View v){
+        if(!tweetET.getText().toString().equals("")){
+            h.sendTweet(tweetET.getText().toString());
+        }
+
     }
 }
