@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.github.scribejava.apis.TwitterApi;
@@ -16,6 +17,7 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth10aService;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -30,11 +32,15 @@ public class HilosXD {
     private static OAuth1RequestToken requestToken;
     private static OAuth1AccessToken accessToken;
     private Perfil p;
+    private UltimosTweets u;
+    private ImageView iv;
 
     public HilosXD(Login l){
         this.l = l;
     }
     public HilosXD(Perfil p){this.p = p;}
+    public HilosXD(UltimosTweets u){this.u = u;}
+
 
     public void getauth(){
 
@@ -121,28 +127,52 @@ public class HilosXD {
        t.start();
     }
 
-    public void getImg(String imgUrl){
+    public void getImg(String imgUrl, ImageView imageView, String context){
+        this.iv = imageView;
         imgUrl = imgUrl.replace("_normal", "");
         final String url = imgUrl;
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    URL newurl = new URL(url);
-                    final Bitmap  mIcon_val = BitmapFactory.decodeStream(newurl.openStream());
-                    p.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            p.profilePic.setImageBitmap(mIcon_val);
-                        }
-                    });
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
+        Thread t;
+        if(context.equals("perfil")){
+            t = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        URL newurl = new URL(url);
+                        final Bitmap  mIcon_val = BitmapFactory.decodeStream(newurl.openStream());
+                        p.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                iv.setImageBitmap(mIcon_val);
+                            }
+                        });
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-        });
+            });
+        }else{
+            t = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        URL newurl = new URL(url);
+                        final Bitmap  mIcon_val = BitmapFactory.decodeStream(newurl.openStream());
+                        u.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                iv.setImageBitmap(mIcon_val);
+                            }
+                        });
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
         t.start();
     }
 
@@ -151,13 +181,21 @@ public class HilosXD {
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-                String url ="https://api.twitter.com/1.1/statuses/home_timeline.json";
+                String url ="https://api.twitter.com/1.1/statuses/home_timeline.json?count=10";
                 final OAuthRequest request = new OAuthRequest(Verb.GET, url);
                 Log.d("respuesta", "ID: "+url);
                 service.signRequest(accessToken, request);
                 try {
                     final Response response = service.execute(request);
                     Log.d("respuesta", response.getBody());
+
+                    try {
+                        UserData.getInstance().setJSONtweets(new JSONArray(response.getBody()));
+
+                        u.listTweets();
+                    } catch (JSONException e) {
+                        Log.d("jsond", e.toString());
+                    }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {

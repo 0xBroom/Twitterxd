@@ -42,7 +42,7 @@ public class Perfil extends AppCompatActivity {
     private void loadInfo(){
         try {
             at.setText("@"+UserData.getInstance().getData().getString("screen_name"));
-            h.getImg(UserData.getInstance().getData().getString("profile_image_url_https"));
+            h.getImg(UserData.getInstance().getData().getString("profile_image_url_https"), profilePic, "perfil");
             Log.d("json", UserData.getInstance().getData().toString());
 
         } catch (JSONException e) {
@@ -55,7 +55,6 @@ public class Perfil extends AppCompatActivity {
     }
 
     public void onClickTweets(View v){
-        h.fetchTweets();
         Intent intent = new Intent(Perfil.this, UltimosTweets.class);
         startActivity(intent);
     }

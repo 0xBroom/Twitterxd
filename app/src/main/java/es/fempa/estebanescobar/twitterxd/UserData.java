@@ -1,12 +1,18 @@
 package es.fempa.estebanescobar.twitterxd;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class UserData {
 
     private JSONObject data;
+    private JSONArray JSONtweets;
     private static UserData instance = null;
     private boolean logged;
+    private ArrayList<Tweet> tweets;
+
 
     private UserData(){
         data = null;
@@ -34,5 +40,21 @@ public class UserData {
 
     protected void setLogged(boolean logged) {
         this.logged = logged;
+    }
+
+    public JSONArray getJSONtweets() {
+        return JSONtweets;
+    }
+
+    public void setJSONtweets(JSONArray JSONtweets) {
+        this.JSONtweets = JSONtweets;
+    }
+
+    public ArrayList<Tweet> getTweets() {
+        return tweets;
+    }
+
+    public void setTweets(ArrayList<Tweet> tweets) {
+        this.tweets = tweets;
     }
 }
