@@ -229,7 +229,12 @@ public class HilosXD {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
+                p.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(p, "Tweet publicado", Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         });
         t.start();

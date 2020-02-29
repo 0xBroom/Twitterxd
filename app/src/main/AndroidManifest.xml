@@ -9,9 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".UltimosTweets"/>
-        <activity android:name=".Perfil" />
-        <activity android:name=".Login" android:launchMode="singleInstance">
+        <activity android:name=".UltimosTweets" android:screenOrientation="portrait"/>
+        <activity android:name=".Perfil" android:screenOrientation="portrait"/>
+        <activity android:name=".Login" android:launchMode="singleInstance" android:screenOrientation="portrait">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
                 <action android:name="android.intent.action.MAIN" />
