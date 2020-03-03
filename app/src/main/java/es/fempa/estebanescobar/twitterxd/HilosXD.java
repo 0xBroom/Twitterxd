@@ -1,5 +1,11 @@
 package es.fempa.estebanescobar.twitterxd;
+/*
+service = new ServiceBuilder("cyFGlnXAnIP5J2fQt9BaX8d4U")
+        .apiSecret("fwsqS43pRiju4OQPM4ewOJf6vZrIdr5MYngerhKxGdICxmFTjX")
+        .callback("test://")
+        .build(TwitterApi.instance());
 
+ */
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -47,8 +53,10 @@ public class HilosXD {
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-                service = new ServiceBuilder("cyFGlnXAnIP5J2fQt9BaX8d4U")
-                        .apiSecret("fwsqS43pRiju4OQPM4ewOJf6vZrIdr5MYngerhKxGdICxmFTjX")
+
+
+                service = new ServiceBuilder("api_key")
+                        .apiSecret("secret_api_key")
                         .callback("test://")
                         .build(TwitterApi.instance());
                 try {
