@@ -55,14 +55,14 @@ public class HilosXD {
             public void run() {
 
 
-                service = new ServiceBuilder("api_key")
+                service = new ServiceBuilder("api_key") //Creamos servicio
                         .apiSecret("secret_api_key")
                         .callback("test://")
                         .build(TwitterApi.instance());
                 try {
-                    requestToken = service.getRequestToken();
-                    String authUrl = service.getAuthorizationUrl(requestToken);
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(authUrl));
+                    requestToken = service.getRequestToken(); //Pedimos requestoken
+                    String authUrl = service.getAuthorizationUrl(requestToken); //Conseguimos URL
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(authUrl)); //Cambiamos al intent
                     l.startActivity(intent);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -84,14 +84,14 @@ public class HilosXD {
             @Override
             public void run() {
                 try {
-                    Uri uri = i.getData();
+                    Uri uri = i.getData(); //Sacamos lo que nos devuelve
                     if(uri.getQueryParameter("denied") == null){
-                        accessToken = service.getAccessToken(requestToken, uri.getQueryParameter("oauth_verifier"));
-                        final OAuthRequest request = new OAuthRequest(Verb.GET, "https://api.twitter.com/1.1/account/verify_credentials.json");
-                        service.signRequest(accessToken, request);
-                        final Response response = service.execute(request);
+                        accessToken = service.getAccessToken(requestToken, uri.getQueryParameter("oauth_verifier")); //Sacamos el access token
+                        final OAuthRequest request = new OAuthRequest(Verb.GET, "https://api.twitter.com/1.1/account/verify_credentials.json"); //Verificamos el usuario
+                        service.signRequest(accessToken, request); //firmamos el request
+                        final Response response = service.execute(request); //ejecutamos
                         Log.d("prueba", "RESPONSE: "+response);
-                        if (response.getMessage().equals("OK")){
+                        if (response.getMessage().equals("OK")){ //
                             try {
                                 JSONObject json = new JSONObject(response.getBody());
                                 UserData.getInstance().setData(json);
